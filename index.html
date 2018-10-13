@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<title>Anh Nguyễn</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1 {font-family: "Arial, Helvetica, sans-serif	", sans-serif}
+body, html {height: 100%}
+.bgimg {
+    background-image: url('./css/img/branding.jpg');
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+.countdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 20rem;
+}
+
+.countdown__item {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-width: 31%;
+  margin-bottom: 1rem;
+
+// Instead of a modifier one could use a pseudo-class:
+//   &:first-child {
+//     width: 100%;
+//   }
+  
+//   &:not(:first-child) {
+//     flex: 1;
+//   }
+}
+
+.countdown__item--large {
+  flex: auto;
+  width: 100%;
+  font-size: 36px;
+}
+
+.countdown__timer {
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.countdown__label {
+  font-size: 1em;
+  
+  .countdown__item--large & {
+    &:before,
+    &:after {
+      content: '';
+      display: block;
+      height: 1px;
+      background-image: linear-gradient(
+        left,
+        rgba(0, 0, 0, 0), 
+        rgba(0, 0, 0, .4),
+        rgba(0, 0, 0, 0));
+    }
+
+  }
+}
+
+</style>
+<body>
+
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+  <div class="w3-display-middle">
+  	<img src="./css/img/anhnguyen.jpg" alt="" style="width: 180px; height: 180px; margin: auto; display: block; border-radius: 50%;">
+    <h1 class="w3-animate-top" style="text-align: center;">COMING HOME</h1>
+    <hr class="w3-border-grey" style="margin:auto;width:40%">
+    <div class="countdown" id="js-countdown">
+    <div class="countdown__item countdown__item--large">
+      <div class="countdown__timer js-countdown-days" aria-labelledby="day-countdown">
+        
+      </div><span style="font-size: 16px">Days</span>
+    </div>
+    
+    <div class="countdown__item">
+      <div class="countdown__timer js-countdown-hours" aria-labelledby="hour-countdown">
+        
+      </div><span>Hour</span>
+    </div>
+    
+    <div class="countdown__item">
+      <div class="countdown__timer js-countdown-minutes" aria-labelledby="minute-countdown">
+        
+      </div><span>Minute</span>
+    </div>
+    
+    <div class="countdown__item">
+      <div class="countdown__timer js-countdown-seconds" aria-labelledby="second-countdown">
+        
+      </div><span>Second</span>
+    </div>
+  </div>
+  </div>
+</div>
+
+</body>
+<script>
+	const countdown = new Date("May 7, 2022");
+
+function getRemainingTime(endtime) {
+  const milliseconds = Date.parse(endtime) - Date.parse(new Date());
+  const seconds = Math.floor( (milliseconds/1000) % 60 );
+  const minutes = Math.floor( (milliseconds/1000/60) % 60 );
+  const hours = Math.floor( (milliseconds/(1000*60*60)) % 24 );
+  const days = Math.floor( milliseconds/(1000*60*60*24) );
+
+  return {
+    'total': milliseconds,
+    'seconds': seconds,
+    'minutes': minutes,
+    'hours': hours,
+    'days': days,
+  };
+};
+  
+function initClock(id, endtime) {
+  const counter = document.getElementById(id);
+  const daysItem = counter.querySelector('.js-countdown-days');
+  const hoursItem = counter.querySelector('.js-countdown-hours');
+  const minutesItem = counter.querySelector('.js-countdown-minutes');
+  const secondsItem = counter.querySelector('.js-countdown-seconds');
+
+  function updateClock() {
+    const time = getRemainingTime(endtime);
+
+    daysItem.innerHTML = time.days;
+    hoursItem.innerHTML = ('0' + time.hours).slice(-2);
+    minutesItem.innerHTML = ('0' + time.minutes).slice(-2);
+    secondsItem.innerHTML = ('0' + time.seconds).slice(-2);
+
+    if (time.total <= 0) {
+      clearInterval(timeinterval);
+    }
+  }
+
+  updateClock();
+  const timeinterval = setInterval(updateClock, 1000);
+}
+
+initClock('js-countdown', countdown);
+
+</script>
+</html>
